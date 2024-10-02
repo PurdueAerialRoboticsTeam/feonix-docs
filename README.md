@@ -16,6 +16,8 @@ run:
 nix run github:PurdueAerialRoboticsTeam/feonix-docs
 ```
 
+If you use ssh keys, please use `git+ssh://git@github.com/PurdueAerialRoboticsTeam/feonix-docs` instead.
+
 To view the checked-out version, clone the repository and from inside, run:
 
 ```sh
