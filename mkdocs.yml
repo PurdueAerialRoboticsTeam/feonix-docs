@@ -50,4 +50,6 @@ repo_name: tfc/mkdocs-plantuml-c4
 
 plugins:
   - search
-  - with-pdf
+  - with-pdf:
+      enabled: !ENV [ENABLE_PDF_EXPORT, false]
+
