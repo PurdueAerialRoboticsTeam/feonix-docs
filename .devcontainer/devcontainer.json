@@ -1,7 +1,7 @@
 // For format details, see https://aka.ms/vscode-remote/devcontainer.json or the definition README at
 // https://github.com/microsoft/vscode-dev-containers/tree/master/containers/docker-existing-dockerfile
 {
-    "name": "feonix-codespace",
+    "name": "feonix-docs-codespace",
     "dockerFile": "Dockerfile",
     "context": "${localWorkspaceFolder}",
     "build": {
@@ -17,7 +17,7 @@
     ],
   
     "containerEnv": {
-       // extensions to preload before other extensions
+       // extensions to preload before other extensions~
       "PRELOAD_EXTENSIONS": "arrterian.nix-env-selector"
     },
   
@@ -28,7 +28,6 @@
   
     // build development environment on creation, make sure you already have shell.nix
     "onCreateCommand": "nix-shell --command 'echo done building nix dev environment'",
-  
     
     // Add the IDs of extensions you want installed when the container is created.
     "customizations": {
@@ -57,7 +56,7 @@
     // "postCreateCommand": "go version",
 
     "mounts": [
-      "source=feonix-codespace_devcontainer_home-cache,target=/home/user/.cache,type=volume"
+      "source=feonix-docs-codespace_devcontainer_home-cache,target=/home/user/.cache,type=volume"
     ]
   }
   

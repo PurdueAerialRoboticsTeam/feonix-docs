@@ -1,4 +1,4 @@
-# Example Project Documentation
+# Feonix Documentation
 
 The chosen documentation system is based on:
 

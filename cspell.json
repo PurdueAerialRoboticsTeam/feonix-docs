@@ -4,7 +4,9 @@
     "words": [
       "mkdocs",
       "msql",
-      "JDBC"
+      "JDBC",
+      "feonix",
+      "Feonix"
     ],
     "ignoreWords": [
       "struct",
