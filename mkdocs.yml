@@ -1,0 +1,53 @@
+site_name: Feonix Documentation
+# site_url: https://xxx
+repo_url: https://github.com/PurdueAerialRoboticsTeam/feonix-docs
+repo_name: PurdueAerialRoboticsTeam/feonix-docs
+edit_uri: edit/main/docs
+site_author: Aerial Robotics at Purdue University
+copyright: Aerial Robotics at Purdue University
+
+markdown_extensions:
+  - admonition
+  - meta
+  - plantuml_markdown
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+
+theme:
+  name: material
+  icon:
+    repo: fontawesome/brands/github
+  features:
+    - navigation.instant
+    - navigation.tabs
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+    - toc.integrate
+  palette:
+    - scheme: default
+      primary: blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+extra:
+  homepage: https://tfc.github.com/mkdocs-plantuml-c4
+
+repo_url: https://github.com/tfc/mkdocs-plantuml-c4
+repo_name: tfc/mkdocs-plantuml-c4
+
+plugins:
+  - search
+  - with-pdf

@@ -1,0 +1,29 @@
+name: Build PDF Artifact
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Install Nix
+        uses: cachix/install-nix-action@v27
+      - name: Setup Nix Cache
+        uses: DeterminateSystems/magic-nix-cache-action@main
+      - name: Build PDF
+        run: nix build .#pdf && cp --recursive --dereference --no-preserve=mode,ownership result docs.pdf
+      - uses: actions/upload-artifact@v4
+        with:
+          name: FeonixDocumentation
+          path: docs.pdf
