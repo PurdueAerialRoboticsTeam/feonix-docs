@@ -43,6 +43,12 @@
               --directory ${packages.html}
             '');
           };
+          serve-dev = {
+            type = "app";
+            program = builtins.toString (pkgs.writeShellScript "serve-dev" ''
+              exec mkdocs serve --livereload
+            '');
+          };
           default = apps.serve-docs;
         };
 
