@@ -45,9 +45,6 @@ theme:
       toggle:
         icon: material/weather-night
         name: Switch to light mode
-  markdown_extensions:
-    - toc:
-      permalink: true
 
 extra:
   homepage: https://purdueaerial.com
