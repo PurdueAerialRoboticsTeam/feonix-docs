@@ -46,7 +46,7 @@
           serve-dev = {
             type = "app";
             program = builtins.toString (pkgs.writeShellScript "serve-dev" ''
-              exec mkdocs serve --livereload
+              echo To start a live reload server, run  $ mkdocs serve
             '');
           };
           default = apps.serve-docs;
