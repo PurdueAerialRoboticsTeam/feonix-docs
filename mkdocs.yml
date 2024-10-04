@@ -19,6 +19,7 @@ markdown_extensions:
 
 theme:
   name: material
+  logo: images/New_PART_logo_favicon-Canidate.svg
   icon:
     repo: fontawesome/brands/github
   features:
@@ -33,15 +34,15 @@ theme:
     - toc.follow
     - toc.integrate
   palette:
-    - scheme: default
-      primary: amber
-      accent: deep-orange
+    - scheme: default 
+      primary: custom
+      accent: custom
       toggle:
         icon: material/weather-sunny
         name: Switch to dark mode
     - scheme: slate
-      primary: amber
-      accent: deep-orange
+      primary: custom
+      accent: accent-orange
       toggle:
         icon: material/weather-night
         name: Switch to light mode
@@ -57,3 +58,6 @@ plugins:
       lang: en
   - with-pdf:
       enabled: !ENV [ENABLE_PDF_EXPORT, false]
+
+extra_css:
+  - stylesheets/extra.css
