@@ -19,7 +19,7 @@ markdown_extensions:
 
 theme:
   name: material
-  logo: docs/images/New_PART_logo_rect.png
+  logo: images/New_PART_logo_favicon-Canidate.svg
   icon:
     repo: fontawesome/brands/github
   features:
@@ -42,7 +42,7 @@ theme:
         name: Switch to dark mode
     - scheme: slate
       primary: custom
-      accent: custom
+      accent: accent-orange
       toggle:
         icon: material/weather-night
         name: Switch to light mode
