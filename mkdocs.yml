@@ -19,6 +19,7 @@ markdown_extensions:
 
 theme:
   name: material
+  logo: docs/images/New_PART_logo_rect.png
   icon:
     repo: fontawesome/brands/github
   features:
