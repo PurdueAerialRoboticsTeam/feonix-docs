@@ -92,16 +92,13 @@ participant GNC
 participant Dad
 participant Camera_Process
 participant Sauron
-participant Mailbox
-participant Groundstation
 
 GNC -> Dad: GPS Coordinates
+Dad -> Dad: GPS airdrop boundary
 Dad -> Camera_Process: Start Recording
-Dad -> Camera_Process: Stop Recording
 Camera_Process -> Sauron: Detect Targets
-Sauron -> Mailbox: Send target found
+Sauron -> Sauron: Localize Targets
 GNC <- Sauron: Drop Coordinates
-Mailbox -> Groundstation: Send telemetry & logs
 @enduml
 ```
 
@@ -115,16 +112,14 @@ participant Dad
 participant Camera_Process
 participant Sauron
 participant Mailbox
-participant Groundstation
+actor Groundstation
 
-GNC -> Dad: GPS Coordinates
-Dad -> Camera_Process: Start Recording
-Dad -> Camera_Process: Stop Recording
-Camera_Process -> Sauron: Image Mapping
-Dad -> Mailbox: Send State Telemetry
-GNC -> Dad: Stop mapping
-Dad -> Sauron: Export map
-Sauron -> Mailbox: Send Image Map
-Mailbox -> Groundstation: Send image map to groundstation
+GNC -> Dad: GPS coordinates
+Dad -> Dad: GPS in mapping boundaries
+Dad -> Camera_Process: Start recording
+Camera_Process -> Sauron: Create image map
+GNC -> Sauron: Stop making map
+Sauron -> Mailbox: Send image map
+Mailbox -> Groundstation: Display image map
 @enduml
 ```
