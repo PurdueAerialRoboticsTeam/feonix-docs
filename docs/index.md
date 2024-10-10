@@ -82,3 +82,49 @@ Wakeup --> BootDad
 ```
 
 <!-- markdownlint-enable line-length -->
+
+## ODLC Sequence Diagram
+
+```plantuml
+@startuml
+
+participant GNC
+participant Dad
+participant Camera_Process
+participant Sauron
+participant Mailbox
+participant Groundstation
+
+GNC -> Dad: GPS Coordinates
+Dad -> Camera_Process: Start Recording
+Dad -> Camera_Process: Stop Recording
+Camera_Process -> Sauron: Detect Targets
+Sauron -> Mailbox: Send target found
+GNC <- Sauron: Drop Coordinates
+Mailbox -> Groundstation: Send telemetry & logs
+@enduml
+```
+
+## Image Mapping Sequence Diagram
+
+```plantuml
+@startuml
+
+participant GNC
+participant Dad
+participant Camera_Process
+participant Sauron
+participant Mailbox
+participant Groundstation
+
+GNC -> Dad: GPS Coordinates
+Dad -> Camera_Process: Start Recording
+Dad -> Camera_Process: Stop Recording
+Camera_Process -> Sauron: Image Mapping
+Dad -> Mailbox: Send State Telemetry
+GNC -> Dad: Stop mapping
+Dad -> Sauron: Export map
+Sauron -> Mailbox: Send Image Map
+Mailbox -> Groundstation: Send image map to groundstation
+@enduml
+```
