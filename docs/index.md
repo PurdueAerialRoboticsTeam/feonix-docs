@@ -123,3 +123,44 @@ Sauron -> Mailbox: Send image map
 Mailbox -> Groundstation: Display image map
 @enduml
 ```
+
+## Professional ODLC Sequence Diagram
+
+```plantuml
+@startuml
+
+participant GNC
+participant Manager
+participant Camera_Controller
+participant Image_Processor
+
+GNC -> Manager: GPS Coordinates
+Manager -> Manager: GPS airdrop boundary
+Manager -> Camera_Controller: Start Recording
+Camera_Controller -> Image_Processor: Detect Targets
+Image_Processor -> Image_Processor: Localize Targets
+GNC <- Image_Processor: Drop Coordinates
+@enduml
+```
+
+## Professional Image Mapping Sequence Diagram
+
+```plantuml
+@startuml
+
+participant GNC
+participant Manager
+participant Camera_Controller
+participant Image_Processor
+participant Mailbox
+actor Groundstation
+
+GNC -> Manager: GPS coordinates
+Manager -> Manager: GPS in mapping boundaries
+Manager -> Camera_Controller: Start recording
+Camera_Controller -> Image_Processor: Create image map
+GNC -> Image_Processor: Stop making map
+Image_Processor -> Mailbox: Send image map
+Mailbox -> Groundstation: Display image map
+@enduml
+```
