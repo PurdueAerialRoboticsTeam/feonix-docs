@@ -187,7 +187,7 @@ stop
 start
 :Save images into folder;
 :Run Open Drone Kit ODM on folder;
-:Send image to GNC;
+:Send image to Groundstation;
 stop
 @enduml
 ```
