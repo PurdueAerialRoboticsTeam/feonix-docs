@@ -164,3 +164,30 @@ Image_Processor -> Mailbox: Send image map
 Mailbox -> Groundstation: Display image map
 @enduml
 ```
+
+## Activity Diagram for ODLC Pipeline
+
+```plantuml
+@startuml
+start
+repeat
+    :Read next photo in queue;
+    :Run YOLO v9 model over photo;
+repeat while (Object Detected?) is (no) not (yes)
+:Localize object detected;
+:Send GNC the GPS coordinates;
+stop
+@enduml
+```
+
+## Activity Diagram for Image Stitching Pipeline
+
+```plantuml
+@startuml
+start
+:Save images into folder;
+:Run Open Drone Kit ODM on folder;
+:Send image to GNC;
+stop
+@enduml
+```
