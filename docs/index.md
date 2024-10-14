@@ -165,6 +165,45 @@ Mailbox -> Groundstation: Display image map
 @enduml
 ```
 
+## Professional ODLC State Diagram
+```plantuml
+@startuml
+[*] --> OffState : StartupThread starts\nCameraController
+
+state "Off State" as OffState {
+}
+
+state "Idle State" as IdleState {
+}
+
+state "Recording State" as RecordingState {
+}
+
+OffState --> IdleState : CameraController turns\nthe camera on.
+IdleState --> OffState : Human action or\nsome event turns\ncamera off.
+IdleState --> RecordingState : Manager decides\nto begin recording.
+RecordingState --> IdleState : Return to Idle\nif not recording.
+```
+
+## Professional Image Mapping State Diagram
+```plantuml
+[*] --> IdleState : StartupThread\nstarts\nManager
+
+state "Idle State" as IdleState {
+}
+
+state "In Range State" as InRangeState {
+}
+
+state "Mapping State" as MappingState {
+}
+
+IdleState --> InRangeState : GNC reports coordinates\nwithin mapping or\ndropping area.
+InRangeState --> IdleState : Return to Idle\nif not within area.
+InRangeState --> MappingState : GNC tells us\nto start mapping.
+MappingState --> IdleState : GNC tells us\nto stop mapping.
+```
+
 ## Activity Diagram for ODLC Pipeline
 
 ```plantuml
