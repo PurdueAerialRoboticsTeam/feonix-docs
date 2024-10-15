@@ -166,42 +166,60 @@ Mailbox -> Groundstation: Display image map
 ```
 
 ## Professional ODLC State Diagram
+
 ```plantuml
 @startuml
-[*] --> OffState : StartupThread starts\nCameraController
+hide empty description
 
-state "Off State" as OffState {
-}
+state "Off State" as OffState
+state "Idle State" as IdleState
+state "Recording State" as RecordingState
 
-state "Idle State" as IdleState {
-}
-
-state "Recording State" as RecordingState {
-}
-
+[*] --> OffState
 OffState --> IdleState : CameraController turns\nthe camera on.
 IdleState --> OffState : Human action or\nsome event turns\ncamera off.
 IdleState --> RecordingState : Manager decides\nto begin recording.
 RecordingState --> IdleState : Return to Idle\nif not recording.
+@enduml
 ```
 
-## Professional Image Mapping State Diagram
+## Sauron State Diagram
+
 ```plantuml
-[*] --> IdleState : StartupThread\nstarts\nManager
+@startuml
+hide empty description
+left to right direction
 
-state "Idle State" as IdleState {
+state Idle
+state "Target Detection" as TargetingState {
+    state choice1 <<choice>>
+    state "Scan for Targets" as Detect
+    state "Localize Detected Target" as LocalizeDetectedTarget
+
+    [*] --> choice1
+    Detect --> LocalizeDetectedTarget : Detected Target
+    LocalizeDetectedTarget --> choice1
+    choice1 --> Detect : Detected < 5 targets
+    choice1 --> [*] : Detected all 5 targets
+}
+state "Mapping" as MappingState {
+    state CaptureGround as "Capture Ground"
+    state StitchMap as "Stitch Map"
+    state choice2 <<choice>>
+
+    [*] --> CaptureGround
+    CaptureGround --> choice2
+    choice2 --> StitchMap : Mapping Pass Complete
+    choice2 --> CaptureGround : Still Recording for Map
+    StitchMap --> [*]
 }
 
-state "In Range State" as InRangeState {
-}
-
-state "Mapping State" as MappingState {
-}
-
-IdleState --> InRangeState : GNC reports coordinates\nwithin mapping or\ndropping area.
-InRangeState --> IdleState : Return to Idle\nif not within area.
-InRangeState --> MappingState : GNC tells us\nto start mapping.
-MappingState --> IdleState : GNC tells us\nto stop mapping.
+[*] --> Idle
+Idle --> TargetingState : In target/drop area?
+TargetingState --> Idle : Outside target/drop area
+Idle --> MappingState : In mapping area?
+MappingState --> Idle : Outside mapping area
+@enduml
 ```
 
 ## Activity Diagram for ODLC Pipeline
