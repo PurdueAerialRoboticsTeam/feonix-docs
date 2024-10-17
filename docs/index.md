@@ -199,8 +199,8 @@ state "Target Detection" as TargetingState {
     [*] --> choice1
     Detect --> LocalizeDetectedTarget : Detected Target
     LocalizeDetectedTarget --> choice1
-    choice1 --> Detect : Detected < 5 targets
-    choice1 --> [*] : Detected all 5 targets
+    choice1 --> Detect : Detected < 4 targets
+    choice1 --> [*] : Detected all 4 targets
 }
 state "Mapping" as MappingState {
     state CaptureGround as "Capture Ground"
