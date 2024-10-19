@@ -1,0 +1,19 @@
+# TOML Configuration File
+
+# Test flag (boolean)
+test = <true_or_false>
+
+# Aircraft Properties (float)
+[aircraftprops]
+turn_radius = <float_value>
+velocity = <float_value>
+
+# Coordinates (list of floats)
+[coordinates]
+waypoints = [<wpx1>, <wpy1>, <wpx2>, <wpy2>]
+target_area = [<tax1>, <tay1>, <tax2>, <tay2>]
+
+# Communication Configuration (string)
+[commconfig]
+groundstation_ip = "<gcs_ip>"
+flightcomputer_ip = "<flight_ip>"
