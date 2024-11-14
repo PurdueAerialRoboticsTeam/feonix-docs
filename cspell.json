@@ -21,6 +21,7 @@
       "Targ",
       "Telem",
       "Wakeup",
-      "ODLC"
+      "ODLC",
+      "ONNX"
     ]
 }
