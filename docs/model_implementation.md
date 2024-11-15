@@ -25,3 +25,7 @@ or a bounding box that has been calculated for the image
 - Train New Model
   - Make a jupyter notebook for this
 - Split the Model Proof of Concept into classification and visualization
+
+## Resources
+
+- Use [Netron.app](https://netron.app/) to view ONNX models

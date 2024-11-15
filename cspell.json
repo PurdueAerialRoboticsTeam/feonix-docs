@@ -22,6 +22,7 @@
       "Telem",
       "Wakeup",
       "ODLC",
-      "ONNX"
+      "ONNX",
+      "Netron"
     ]
 }
