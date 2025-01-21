@@ -24,6 +24,8 @@ theme:
     repo: fontawesome/brands/github
   features:
     - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.instant.progress
     - navigation.tabs
     - navigation.tabs.sticky
     - navigation.indexes
@@ -34,7 +36,7 @@ theme:
     - toc.follow
     - toc.integrate
   palette:
-    - scheme: default 
+    - scheme: default
       primary: custom
       accent: custom
       toggle:
@@ -54,6 +56,7 @@ repo_url: https://github.com/PurdueAerialRoboticsTeam/feonix-docs
 repo_name: PurdueAerialRoboticsTeam/feonix-docs
 
 plugins:
+  - offline
   - search:
       lang: en
   - with-pdf:
@@ -61,3 +64,11 @@ plugins:
 
 extra_css:
   - stylesheets/extra.css
+
+nav:
+  - Home: index.md
+  - Getting Started: getting_started.md
+  - Diagrams:
+      - Creating Diagrams: creating_diagrams.md
+      - Diagrams: diagrams.md
+  - Model: model_implementation.md
