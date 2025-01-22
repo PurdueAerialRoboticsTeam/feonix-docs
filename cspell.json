@@ -6,7 +6,13 @@
       "msql",
       "JDBC",
       "feonix",
-      "Feonix"
+      "Feonix",
+      "Dependi",
+      "Devcontainer",
+      "Devcontainers",
+      "devcontainer",
+      "devcontainers",
+      "direnv"
     ],
     "ignoreWords": [
       "struct",
