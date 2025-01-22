@@ -66,8 +66,8 @@ running the following commands:
 
 ```bash
 # Enable Nix Flakes
-mkdir -p /etc/nix
-echo "experimental-features = nix-command flakes" >> /etc/nix/nix.conf
+sudo mkdir -p /etc/nix
+echo "experimental-features = nix-command flakes" | sudo tee -a /etc/nix/nix.conf
 ```
 
 Now enter the repository and enter the development environment:
