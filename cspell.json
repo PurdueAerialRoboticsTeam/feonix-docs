@@ -30,5 +30,13 @@
       "ODLC",
       "ONNX",
       "Netron"
-    ]
+    ],
+    "languageSettings": [
+      {
+          "languageId": "markdown",
+          "ignoreRegExpList": [
+              "/^\\s*```[\\s\\S]*?^\\s*```/gm"
+          ]
+      }
+  ]
 }

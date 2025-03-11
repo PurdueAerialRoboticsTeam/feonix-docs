@@ -52,22 +52,21 @@ There are three methods to set up the repository:
 
 - A Unix-like operating system (Linux, macOS, etc.), or
 [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) on Windows.
-- [Nix](https://nixos.org/download.html)
+- [Nix](#installing-nix)
 - [direnv](https://direnv.net/) (optional, but recommended)
 
 #### Additional VSCode Extensions
 
 - [Nix Extension Pack](https://marketplace.visualstudio.com/items?itemName=pinage404.nix-extension-pack)
 
-### Nix Setup
+### Installing Nix
 
-To setup the repository you will need to enable Nix Flakes. This can be done by
-running the following commands:
+To install Nix, you will need to run the following command:
 
 ```bash
-# Enable Nix Flakes
-mkdir -p /etc/nix
-echo "experimental-features = nix-command flakes" >> /etc/nix/nix.conf
+curl --proto '=https' --tlsv1.2 -sSf -L \
+  https://install.determinate.systems/nix | \
+  sh -s -- install --determinate
 ```
 
 Now enter the repository and enter the development environment:
