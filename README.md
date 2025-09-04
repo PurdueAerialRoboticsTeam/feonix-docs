@@ -1,5 +1,8 @@
 # Feonix Documentation
 
+Deployment at: [https://purdueaerialroboticsteam.github.io/feonix-docs/](https://purdueaerialroboticsteam.github.io/feonix-docs/)
+
+
 Based off of [mkdocs-plantuml-c4](https://github.com/tfc/mkdocs-plantuml-c4/tree/main)
 
 This repository provides a nix flake that builds and serves an the feonix
