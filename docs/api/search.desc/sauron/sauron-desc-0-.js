@@ -1,1 +1,0 @@
-searchState.loadedDescShard("sauron", 0, "")

@@ -8,3 +8,4 @@ please feel free to reach out.
 
 - [Getting Started](getting_started.md)
 - [Diagrams](diagrams.md)
+- [Documentation](api/index.html)

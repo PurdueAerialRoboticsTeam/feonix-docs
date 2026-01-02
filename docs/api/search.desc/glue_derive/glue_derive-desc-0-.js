@@ -1,1 +1,0 @@
-searchState.loadedDescShard("glue_derive", 0, "This entire crate is literally just for these two macros …\nA macro to automatically implement the …\nA macro to automatically implement the …")

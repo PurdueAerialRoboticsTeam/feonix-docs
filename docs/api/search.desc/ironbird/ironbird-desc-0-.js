@@ -1,1 +1,0 @@
-searchState.loadedDescShard("ironbird", 0, "Copies an image file to the output directory with a …\nStarts the fake GNC actor that simulates sending telemetry …")

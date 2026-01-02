@@ -1,1 +1,0 @@
-searchState.loadedDescShard("peripherals", 0, "")

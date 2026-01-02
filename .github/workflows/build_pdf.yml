@@ -19,8 +19,6 @@ jobs:
           fetch-depth: 1
       - name: Install Nix
         uses: cachix/install-nix-action@v27
-      - name: Setup Nix Cache
-        uses: DeterminateSystems/magic-nix-cache-action@main
       - name: Build PDF
         run: nix build .#pdf && cp --recursive --dereference --no-preserve=mode,ownership result docs.pdf
       - uses: actions/upload-artifact@v4
