@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":["BoxDetection","Gps","MatInfo","Model","Object"],"type":["Detections"]};

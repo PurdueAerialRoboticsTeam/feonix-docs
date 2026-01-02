@@ -71,4 +71,4 @@ nav:
   - Diagrams:
       - Creating Diagrams: creating_diagrams.md
       - Diagrams: diagrams.md
-  - Model: model_implementation.md
+  - Documentation: api/index.html

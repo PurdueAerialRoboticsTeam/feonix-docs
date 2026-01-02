@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["meters_per_pixel","resolve_gps_location"]};

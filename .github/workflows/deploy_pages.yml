@@ -31,8 +31,6 @@ jobs:
           fetch-depth: 1
       - name: Install Nix
         uses: cachix/install-nix-action@v27
-      - name: Setup Nix Cache
-        uses: DeterminateSystems/magic-nix-cache-action@main
       - name: Build HTML Site
         run: nix build .#html && cp --recursive --dereference --no-preserve=mode,ownership result website-html
       - name: Upload static files as artifact
@@ -52,4 +50,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-

@@ -2,8 +2,7 @@
 
 Deployment at: [https://purdueaerialroboticsteam.github.io/feonix-docs/](https://purdueaerialroboticsteam.github.io/feonix-docs/)
 
-
-Based off of [mkdocs-plantuml-c4](https://github.com/tfc/mkdocs-plantuml-c4/tree/main)
+This repository is based off of [mkdocs-plantuml-c4](https://github.com/tfc/mkdocs-plantuml-c4/tree/main)
 
 This repository provides a nix flake that builds and serves an the feonix
 project documentation that is written in markdown and generated as HTML
@@ -19,7 +18,8 @@ run:
 nix run github:PurdueAerialRoboticsTeam/feonix-docs
 ```
 
-If you use ssh keys, please use `git+ssh://git@github.com/PurdueAerialRoboticsTeam/feonix-docs` instead.
+If you use ssh keys, please use
+`git+ssh://git@github.com/PurdueAerialRoboticsTeam/feonix-docs` instead.
 
 To view the checked-out version, clone the repository and from inside, run:
 

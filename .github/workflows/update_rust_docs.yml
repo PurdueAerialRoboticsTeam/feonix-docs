@@ -1,0 +1,103 @@
+name: Update Rust API Docs
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 3 * * *" # optional daily update
+
+jobs:
+  build-and-update-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Clone Rust repo
+        run: |
+          git clone https://x-access-token:${{ secrets.FEONIX_TOKEN }}@github.com/PurdueAerialRoboticsTeam/feonix.git rust_project
+
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+
+      - name: Build Rust docs
+        run: |
+          cd rust_project
+          cargo doc --workspace --no-deps --document-private-items
+
+      - name: Copy docs
+        run: |
+          rm -rf docs/api
+          mkdir -p docs/api
+          cp -r rust_project/target/doc/* docs/api/
+          touch docs/api/.nojekyll
+
+      - name: Generate API landing pages
+        run: |
+          cd docs/api
+
+          # List crate directories (sorted, deterministic)
+          CRATES=$(ls -d */ | sed 's#/##' | sort)
+          JS_ARRAY=$(printf '"%s",' $CRATES | sed 's/,$//')
+
+          # index.html → redirect to first crate
+          cat <<EOF > index.html
+            <!DOCTYPE html>
+            <html>
+            <head>
+              <meta charset="utf-8">
+              <title>Redirecting…</title>
+              <script>
+                const crates = [$JS_ARRAY];
+                if (crates.length > 0) {
+                  window.location.replace(crates[0] + "/index.html");
+                } else {
+                  document.body.textContent = "No API documentation found.";
+                }
+              </script>
+            </head>
+            <body>
+              Redirecting to API documentation…
+            </body>
+            </html>
+            EOF
+
+          # all.html → list all crates
+          cat <<EOF > all.html
+            <!DOCTYPE html>
+            <html>
+            <head>
+              <meta charset="utf-8">
+              <title>API Documentation</title>
+              <style>
+                body {
+                  font-family: system-ui, sans-serif;
+                  margin: 2rem;
+                  background: #f9f9f9;
+                }
+                h1 { margin-bottom: 1rem; }
+                ul { list-style: none; padding: 0; }
+                li { margin: 0.5rem 0; }
+                a { color: #0366d6; text-decoration: none; }
+                a:hover { text-decoration: underline; }
+              </style>
+            </head>
+            <body>
+              <h1>Rust API Documentation</h1>
+              <ul>
+                $(for c in $CRATES; do echo "<li><a href=\"$c/index.html\">$c</a></li>"; done)
+              </ul>
+            </body>
+            </html>
+            EOF
+
+      - name: Commit & push
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add docs/api
+          git commit -m "Update Rust API docs" || echo "No changes"
+          git push
