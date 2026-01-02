@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["bulk_upsert_objects","create_schema","get_gps","insert_image","smart_update_database","start_postgres_container","start_postgres_embedded"]};

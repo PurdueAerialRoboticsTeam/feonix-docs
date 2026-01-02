@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["detect","get_env","intersection","load_model","post_process","pre_process","union"]};

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["pipeline_builder","pipeline_layer"],"struct":["PipelineBuilder"],"trait":["PipelineLayer"]};

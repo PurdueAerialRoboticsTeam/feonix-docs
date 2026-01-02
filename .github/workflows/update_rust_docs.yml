@@ -1,0 +1,44 @@
+name: Update Rust API Docs
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 3 * * *" # optional daily update
+
+jobs:
+  build-and-update-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Clone Rust repo
+        run: |
+          git clone https://x-access-token:${{ secrets.FEONIX_TOKEN }}@github.com/PurdueAerialRoboticsTeam/feonix.git rust_project
+
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+
+      - name: Build Rust docs
+        run: |
+          cd feonix
+          cargo doc --workspace --no-deps --document-private-items
+
+      - name: Copy docs
+        run: |
+          rm -rf docs/api
+          mkdir -p docs/api
+          cp -r feonix/target/doc/* docs/api/
+          touch docs/api/.nojekyll
+
+      - name: Commit & push
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add docs/api
+          git commit -m "Update Rust API docs" || echo "No changes"
+          git push

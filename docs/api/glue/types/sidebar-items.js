@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["GlueMsg"],"struct":["BoxDetection","DetectToLocalData","Form","Gps","Heartbeat","Image","ImagePathGPS","ImageTagged","Offboard","SauronProphecy","SauronResult","Target"],"type":["Detections"]};

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["MailboxMessageType"],"struct":["GNCTelemetry","GPTelemetry","Image","Log","MailboxMessage"]};

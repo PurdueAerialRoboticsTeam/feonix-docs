@@ -71,3 +71,4 @@ nav:
   - Diagrams:
       - Creating Diagrams: creating_diagrams.md
       - Diagrams: diagrams.md
+  - API Reference: api/algorithms/index.html
