@@ -1,16 +1,16 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/algorithms/src/localize.rs`."><title>localize.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-ca0dd0c4.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="algorithms" data-themes="" data-resource-suffix="" data-rustdoc-version="1.92.0 (ded5c06cf 2025-12-08)" data-channel="1.92.0" data-search-js="search-d69d8955.js" data-stringdex-js="stringdex-c3e638e9.js" data-settings-js="settings-c38705f0.js" ><script src="../../static.files/storage-e2aeef58.js"></script><script defer src="../../static.files/src-script-813739b1.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-ce535bd0.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-263c88ec.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">algorithms/</div>localize.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap digits-2"><pre class="rust"><code><a href=#1 id=1 data-nosnippet>1</a><span class="kw">use </span>geographiclib_rs::{DirectGeodesic, Geodesic};
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/algorithms/src/localize.rs`."><title>localize.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-ca0dd0c4.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="algorithms" data-themes="" data-resource-suffix="" data-rustdoc-version="1.92.0 (ded5c06cf 2025-12-08)" data-channel="1.92.0" data-search-js="search-d69d8955.js" data-stringdex-js="stringdex-c3e638e9.js" data-settings-js="settings-c38705f0.js" ><script src="../../static.files/storage-e2aeef58.js"></script><script defer src="../../static.files/src-script-813739b1.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-ce535bd0.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-263c88ec.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">algorithms/</div>localize.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap digits-2"><pre class="rust"><code><a href=#1 id=1 data-nosnippet>1</a><span class="doccomment">//! Localization algorithms for the drone.
 <a href=#2 id=2 data-nosnippet>2</a>
-<a href=#3 id=3 data-nosnippet>3</a><span class="comment">/*
-<a href=#4 id=4 data-nosnippet>4</a> *  This function calculates and returns the co-ordinates of the target based on the images taken
-<a href=#5 id=5 data-nosnippet>5</a> *  by the drone camera, and the position of the camera.
-<a href=#6 id=6 data-nosnippet>6</a> *
-<a href=#7 id=7 data-nosnippet>7</a> *  Parameters:
-<a href=#8 id=8 data-nosnippet>8</a> *  camera_coords - coordinates of the center of the camera
-<a href=#9 id=9 data-nosnippet>9</a> *  altitude - altitude of the drone at snapshot
-<a href=#10 id=10 data-nosnippet>10</a> *  heading - heading of the drone at snapshot
-<a href=#11 id=11 data-nosnippet>11</a> *  target_position - coordinates of the target; specifically, the center of the target
-<a href=#12 id=12 data-nosnippet>12</a> */
-<a href=#13 id=13 data-nosnippet>13</a>
+<a href=#3 id=3 data-nosnippet>3</a></span><span class="kw">use </span>geographiclib_rs::{DirectGeodesic, Geodesic};
+<a href=#4 id=4 data-nosnippet>4</a>
+<a href=#5 id=5 data-nosnippet>5</a><span class="doccomment">/// This function calculates and returns the co-ordinates of the target based on the images taken
+<a href=#6 id=6 data-nosnippet>6</a>/// by the drone camera, and the position of the camera.
+<a href=#7 id=7 data-nosnippet>7</a>///
+<a href=#8 id=8 data-nosnippet>8</a>/// # Arguments
+<a href=#9 id=9 data-nosnippet>9</a>///
+<a href=#10 id=10 data-nosnippet>10</a>/// * `camera_coords` - coordinates of the center of the camera
+<a href=#11 id=11 data-nosnippet>11</a>/// * `altitude` - altitude of the drone at snapshot
+<a href=#12 id=12 data-nosnippet>12</a>/// * `heading` - heading of the drone at snapshot
+<a href=#13 id=13 data-nosnippet>13</a>/// * `target_position` - coordinates of the target; specifically, the center of the target
 <a href=#14 id=14 data-nosnippet>14</a></span><span class="kw">pub fn </span>resolve_gps_location(
 <a href=#15 id=15 data-nosnippet>15</a>    <span class="comment">//TODO check gemini's new function for exact correctness. The old function was very incorrect though, so this is better than that as least.
 <a href=#16 id=16 data-nosnippet>16</a>    </span>camera_coords: (f64, f64),
@@ -60,22 +60,19 @@
 <a href=#60 id=60 data-nosnippet>60</a>    (target_lat, target_lon)
 <a href=#61 id=61 data-nosnippet>61</a>} <span class="comment">/* resolve_gps_location() */
 <a href=#62 id=62 data-nosnippet>62</a>
-<a href=#63 id=63 data-nosnippet>63</a>/*
-<a href=#64 id=64 data-nosnippet>64</a> *  Converts the image pixels to meters.
-<a href=#65 id=65 data-nosnippet>65</a> */
+<a href=#63 id=63 data-nosnippet>63</a></span><span class="doccomment">/// Converts the image pixels to meters.
+<a href=#64 id=64 data-nosnippet>64</a></span><span class="kw">fn </span>meters_per_pixel(altitude: f64, h_fov_deg: f64, resolution: (i32, i32)) -&gt; f64 {
+<a href=#65 id=65 data-nosnippet>65</a>    <span class="kw">let </span>h_fov_rad = h_fov_deg.to_radians();
 <a href=#66 id=66 data-nosnippet>66</a>
-<a href=#67 id=67 data-nosnippet>67</a></span><span class="kw">fn </span>meters_per_pixel(altitude: f64, h_fov_deg: f64, resolution: (i32, i32)) -&gt; f64 {
-<a href=#68 id=68 data-nosnippet>68</a>    <span class="kw">let </span>h_fov_rad = h_fov_deg.to_radians();
-<a href=#69 id=69 data-nosnippet>69</a>
-<a href=#70 id=70 data-nosnippet>70</a>    <span class="comment">// Calculate vertical FOV based on aspect ratio to maintain accuracy
-<a href=#71 id=71 data-nosnippet>71</a>    </span><span class="kw">let </span>aspect_ratio = resolution.<span class="number">1 </span><span class="kw">as </span>f64 / resolution.<span class="number">0 </span><span class="kw">as </span>f64;
-<a href=#72 id=72 data-nosnippet>72</a>    <span class="kw">let </span>v_fov_rad = <span class="number">2.0 </span>* (aspect_ratio * (h_fov_rad / <span class="number">2.0</span>).tan()).atan();
+<a href=#67 id=67 data-nosnippet>67</a>    <span class="comment">// Calculate vertical FOV based on aspect ratio to maintain accuracy
+<a href=#68 id=68 data-nosnippet>68</a>    </span><span class="kw">let </span>aspect_ratio = resolution.<span class="number">1 </span><span class="kw">as </span>f64 / resolution.<span class="number">0 </span><span class="kw">as </span>f64;
+<a href=#69 id=69 data-nosnippet>69</a>    <span class="kw">let </span>v_fov_rad = <span class="number">2.0 </span>* (aspect_ratio * (h_fov_rad / <span class="number">2.0</span>).tan()).atan();
+<a href=#70 id=70 data-nosnippet>70</a>
+<a href=#71 id=71 data-nosnippet>71</a>    <span class="kw">let </span>ground_width = <span class="number">2.0 </span>* altitude * (h_fov_rad / <span class="number">2.0</span>).tan();
+<a href=#72 id=72 data-nosnippet>72</a>    <span class="kw">let </span>ground_height = <span class="number">2.0 </span>* altitude * (v_fov_rad / <span class="number">2.0</span>).tan();
 <a href=#73 id=73 data-nosnippet>73</a>
-<a href=#74 id=74 data-nosnippet>74</a>    <span class="kw">let </span>ground_width = <span class="number">2.0 </span>* altitude * (h_fov_rad / <span class="number">2.0</span>).tan();
-<a href=#75 id=75 data-nosnippet>75</a>    <span class="kw">let </span>ground_height = <span class="number">2.0 </span>* altitude * (v_fov_rad / <span class="number">2.0</span>).tan();
+<a href=#74 id=74 data-nosnippet>74</a>    <span class="kw">let </span>mpp_h = ground_width / resolution.<span class="number">0 </span><span class="kw">as </span>f64;
+<a href=#75 id=75 data-nosnippet>75</a>    <span class="kw">let </span>mpp_v = ground_height / resolution.<span class="number">1 </span><span class="kw">as </span>f64;
 <a href=#76 id=76 data-nosnippet>76</a>
-<a href=#77 id=77 data-nosnippet>77</a>    <span class="kw">let </span>mpp_h = ground_width / resolution.<span class="number">0 </span><span class="kw">as </span>f64;
-<a href=#78 id=78 data-nosnippet>78</a>    <span class="kw">let </span>mpp_v = ground_height / resolution.<span class="number">1 </span><span class="kw">as </span>f64;
-<a href=#79 id=79 data-nosnippet>79</a>
-<a href=#80 id=80 data-nosnippet>80</a>    (mpp_h + mpp_v) / <span class="number">2.0
-<a href=#81 id=81 data-nosnippet>81</a></span>}</code></pre></div></section></main></body></html>
+<a href=#77 id=77 data-nosnippet>77</a>    (mpp_h + mpp_v) / <span class="number">2.0
+<a href=#78 id=78 data-nosnippet>78</a></span>}</code></pre></div></section></main></body></html>
