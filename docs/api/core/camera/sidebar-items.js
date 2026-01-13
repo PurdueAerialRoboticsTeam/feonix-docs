@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["run_camera","start_camera"]};
+window.SIDEBAR_ITEMS = {"enum":["CameraMessage"],"fn":["camera_listen","run_camera_phototaking_loop","start_camera_phototaking_loop"],"struct":["Camera","CameraHandle"]};
