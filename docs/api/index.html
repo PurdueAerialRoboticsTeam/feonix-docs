@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Redirecting…</title>
     <script>
-      const crates = ["algorithms","constants","core","glue","glue_derive","peripherals","sauron","search.index","src","static.files","trait.impl","type.impl","types"];
+      const crates = ["algorithms","constants","core","glue","glue_derive","ironbird","peripherals","sauron","search.index","src","static.files","trait.impl","type.impl","types"];
       if (crates.length > 0) {
         window.location.replace(crates[0] + "/index.html");
       } else {
@@ -46,6 +46,7 @@ cat <<EOF > all.html
 <li><a href="core/index.html">core</a></li>
 <li><a href="glue/index.html">glue</a></li>
 <li><a href="glue_derive/index.html">glue_derive</a></li>
+<li><a href="ironbird/index.html">ironbird</a></li>
 <li><a href="peripherals/index.html">peripherals</a></li>
 <li><a href="sauron/index.html">sauron</a></li>
 <li><a href="search.index/index.html">search.index</a></li>

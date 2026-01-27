@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["GPSRow","ObjectRow"]};
+window.SIDEBAR_ITEMS = {"enum":["PostgresTypes"],"struct":["GPSRow","ObjectRow"]};

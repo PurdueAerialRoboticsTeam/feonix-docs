@@ -22,7 +22,7 @@
 <a href=#22 id=22 data-nosnippet>22</a>    sqlx::query(
 <a href=#23 id=23 data-nosnippet>23</a>        <span class="string">r#"
 <a href=#24 id=24 data-nosnippet>24</a>CREATE TABLE IF NOT EXISTS gps (
-<a href=#25 id=25 data-nosnippet>25</a>    timestamp INTEGER PRIMARY KEY CHECK (timestamp &gt;= 0),
+<a href=#25 id=25 data-nosnippet>25</a>    timestamp BIGINT PRIMARY KEY CHECK (timestamp &gt;= 0),
 <a href=#26 id=26 data-nosnippet>26</a>    lat REAL NOT NULL,
 <a href=#27 id=27 data-nosnippet>27</a>    long REAL NOT NULL,
 <a href=#28 id=28 data-nosnippet>28</a>    alt REAL NOT NULL,
@@ -39,7 +39,7 @@
 <a href=#39 id=39 data-nosnippet>39</a>    timestamp INTEGER PRIMARY KEY CHECK (timestamp &gt;= 0),
 <a href=#40 id=40 data-nosnippet>40</a>    ground_speed REAL NOT NULL,
 <a href=#41 id=41 data-nosnippet>41</a>    vertical_speed REAL NOT NULL,
-<a href=#42 id=42 data-nosnippet>42</a>    air_speed REAL NOT NULL,
+<a href=#42 id=42 data-nosnippet>42</a>    air_speed REAL NOT NULL
 <a href=#43 id=43 data-nosnippet>43</a>);
 <a href=#44 id=44 data-nosnippet>44</a>"#</span>,
 <a href=#45 id=45 data-nosnippet>45</a>    )
@@ -50,7 +50,7 @@
 <a href=#50 id=50 data-nosnippet>50</a>        <span class="string">r#"
 <a href=#51 id=51 data-nosnippet>51</a>CREATE TABLE IF NOT EXISTS images (
 <a href=#52 id=52 data-nosnippet>52</a>    filepath TEXT PRIMARY KEY,
-<a href=#53 id=53 data-nosnippet>53</a>    timestamp INTEGER NOT NULL CHECK (timestamp &gt;= 0)
+<a href=#53 id=53 data-nosnippet>53</a>    timestamp BIGINT NOT NULL CHECK (timestamp &gt;= 0)
 <a href=#54 id=54 data-nosnippet>54</a>);
 <a href=#55 id=55 data-nosnippet>55</a>"#</span>,
 <a href=#56 id=56 data-nosnippet>56</a>    )
@@ -61,8 +61,8 @@
 <a href=#61 id=61 data-nosnippet>61</a>        <span class="string">r#"
 <a href=#62 id=62 data-nosnippet>62</a>CREATE TABLE IF NOT EXISTS geotags (
 <a href=#63 id=63 data-nosnippet>63</a>    filepath TEXT PRIMARY KEY REFERENCES images (filepath) ON UPDATE CASCADE ON DELETE CASCADE,
-<a href=#64 id=64 data-nosnippet>64</a>    image_timestamp INTEGER NOT NULL CHECK (image_timestamp &gt;= 0),
-<a href=#65 id=65 data-nosnippet>65</a>    gps_time INTEGER NOT NULL REFERENCES gps (timestamp) ON UPDATE CASCADE ON DELETE RESTRICT,
+<a href=#64 id=64 data-nosnippet>64</a>    image_timestamp BIGINT NOT NULL CHECK (image_timestamp &gt;= 0),
+<a href=#65 id=65 data-nosnippet>65</a>    gps_time BIGINT NOT NULL REFERENCES gps (timestamp) ON UPDATE CASCADE ON DELETE RESTRICT,
 <a href=#66 id=66 data-nosnippet>66</a>    lat REAL NOT NULL,
 <a href=#67 id=67 data-nosnippet>67</a>    long REAL NOT NULL,
 <a href=#68 id=68 data-nosnippet>68</a>    alt REAL NOT NULL,
@@ -108,7 +108,7 @@
 <a href=#108 id=108 data-nosnippet>108</a>    file_path: <span class="kw-2">&amp;</span>String,
 <a href=#109 id=109 data-nosnippet>109</a>    timestamp: <span class="kw-2">&amp;</span>i64,
 <a href=#110 id=110 data-nosnippet>110</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), sqlx::Error&gt; {
-<a href=#111 id=111 data-nosnippet>111</a>    sqlx::query(<span class="string">"INSERT INTO images (filepath, timestamp) VALUES (?, ?);"</span>)
+<a href=#111 id=111 data-nosnippet>111</a>    sqlx::query(<span class="string">"INSERT INTO images (filepath, timestamp) VALUES ($1, $2);"</span>)
 <a href=#112 id=112 data-nosnippet>112</a>        .bind(file_path)
 <a href=#113 id=113 data-nosnippet>113</a>        .bind(timestamp)
 <a href=#114 id=114 data-nosnippet>114</a>        .execute(pool)
@@ -145,12 +145,12 @@
 <a href=#145 id=145 data-nosnippet>145</a>                $3::integer[],
 <a href=#146 id=146 data-nosnippet>146</a>                $4::real[],
 <a href=#147 id=147 data-nosnippet>147</a>                $5::integer[],
-<a href=#148 id=148 data-nosnippet>148</a>                &amp;6::text[]
+<a href=#148 id=148 data-nosnippet>148</a>                $6::text[]
 <a href=#149 id=149 data-nosnippet>149</a>            )
 <a href=#150 id=150 data-nosnippet>150</a>            ON CONFLICT (lat, long, class) DO UPDATE
 <a href=#151 id=151 data-nosnippet>151</a>            SET
-<a href=#152 id=152 data-nosnippet>152</a>                max_confidence = excluded.max_confidence,
-<a href=#153 id=153 data-nosnippet>153</a>                num_detections = objects.num_detections + 1;
+<a href=#152 id=152 data-nosnippet>152</a>                max_confidence = GREATEST(objects.max_confidence, excluded.max_confidence),
+<a href=#153 id=153 data-nosnippet>153</a>                num_detections = objects.num_detections + excluded.num_detections
 <a href=#154 id=154 data-nosnippet>154</a>        "#</span>,
 <a href=#155 id=155 data-nosnippet>155</a>    )
 <a href=#156 id=156 data-nosnippet>156</a>    .bind(lats)
