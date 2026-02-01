@@ -2,8 +2,6 @@ name: Update Rust API Docs
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 3 * * *" # optional daily update
 
 jobs:
   build-and-update-docs:
